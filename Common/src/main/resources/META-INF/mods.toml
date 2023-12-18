@@ -1,14 +1,14 @@
 modLoader="javafml"
 loaderVersion="*"
 license="All rights reserved"
-issueTrackerURL="https://github.com/ricksouth/serilum-mc-mods/labels/Mod:%20Starter%20Structure"
+issueTrackerURL="https://github.com/Serilum/.issue-tracker/labels/Mod:%20Starter%20Structure"
 logoFile="icon.png"
 
 [[mods]]
 modId="starterstructure"
-version="3.2"
+version="3.3"
 displayName="Starter Structure"
-displayURL="https://curseforge.com/minecraft/mc-mods/starter-structure"
+displayURL="https://serilum.com/mod/starter-structure"
 authors="Rick South"
 description='''Allows the creation of a structure on first world generation at spawn via schematic files.
 '''
@@ -21,13 +21,15 @@ If you would like to contribute too, check out https://ricksouth.com/donate. App
 
 [[dependencies.starterstructure]]
     modId="collective"
+    type="required"
     mandatory=true
-    versionRange="[7.3,)"
+    versionRange="[7.21,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.starterstructure]]
     modId="minecraft"
+    type="required"
     mandatory=true
     versionRange="[1.20.1]"
     ordering="NONE"
