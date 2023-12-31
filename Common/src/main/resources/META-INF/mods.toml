@@ -6,7 +6,7 @@ logoFile="icon.png"
 
 [[mods]]
 modId="starterstructure"
-version="3.3"
+version="3.4"
 displayName="Starter Structure"
 displayURL="https://serilum.com/mod/starter-structure"
 authors="Rick South"
@@ -23,7 +23,7 @@ If you would like to contribute too, check out https://ricksouth.com/donate. App
     modId="collective"
     type="required"
     mandatory=true
-    versionRange="[7.21,)"
+    versionRange="[7.30,)"
     ordering="NONE"
     side="BOTH"
 
