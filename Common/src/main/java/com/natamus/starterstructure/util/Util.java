@@ -57,11 +57,11 @@ public class Util {
         return true;
     }
 
-    public static void generateSchematic(ServerLevel serverLevel) {
+    public static BlockPos generateSchematic(ServerLevel serverLevel) {
         if (!schematicDir.isDirectory()) {
             if (!initDirs()) {
                 logger.info(logPrefix + "Unable to generate directories.");
-                return;
+                return null;
             }
         }
 
@@ -76,36 +76,30 @@ public class Util {
 
         if (listOfSchematicFiles.size() == 0) {
             logger.info(logPrefix + "No schematics found to generate the starter structure.");
-            return;
+            return null;
         }
 
         File schematicFile = listOfSchematicFiles.get(GlobalVariables.random.nextInt(listOfSchematicFiles.size()));
         if (!schematicFile.isFile()) {
             logger.info(logPrefix + "Unable to find starter structure file.");
-            return;
+            return null;
         }
 
         boolean automaticCenter = schematicFile.getName().endsWith(".nbt");
 
-        BlockPos spawnPos = serverLevel.getSharedSpawnPos();
-
-        if (ConfigHandler.ignoreTreesDuringStructurePlacement) {
-            spawnPos = getSpawnPos(serverLevel, BlockPosFunctions.getSurfaceBlockPos(serverLevel, spawnPos.getX(), spawnPos.getZ(), true), false);
-        }
-        else {
-            spawnPos = getSpawnPos(serverLevel, serverLevel.getSharedSpawnPos(), false);
-        }
-
-        BlockPos structurePos = spawnPos;
+        BlockPos structurePos = serverLevel.getSharedSpawnPos();
 
         if (ConfigHandler.shouldUseStructurePosition) {
             structurePos = new BlockPos(ConfigHandler.generatedStructureXPosition, ConfigHandler.generatedStructureYPosition, ConfigHandler.generatedStructureZPosition);
         }
         if (ConfigHandler.shouldUseStructureOffset) {
-            structurePos = serverLevel.getSharedSpawnPos().offset(ConfigHandler.generatedStructureXOffset, ConfigHandler.generatedStructureYOffset, ConfigHandler.generatedStructureZOffset).immutable();
+            structurePos = structurePos.offset(ConfigHandler.generatedStructureXOffset, ConfigHandler.generatedStructureYOffset, ConfigHandler.generatedStructureZOffset).immutable();
         }
 
-        structurePos = structurePos.immutable();
+        if (ConfigHandler.ignoreTreesDuringStructurePlacement && (!ConfigHandler.shouldUseStructurePosition || ConfigHandler.generatedStructureYPosition == 0)) {
+            structurePos = getSpawnPos(serverLevel, BlockPosFunctions.getSurfaceBlockPos(serverLevel, structurePos.getX(), structurePos.getZ(), true), false, false);
+        }
+
 
         ParsedSchematicObject parsedSchematicObject;
         try (FileInputStream fileInputStream = new FileInputStream(schematicFile)){
@@ -114,12 +108,12 @@ public class Util {
         catch (Exception ex) {
             logger.info(logPrefix + "Exception while attempting to parse schematic file.");
             ex.printStackTrace();
-            return;
+            return null;
         }
 
         if (!parsedSchematicObject.parsedCorrectly) {
             logger.info(logPrefix + "The starter structure object was not parsed correctly.");
-            return;
+            return null;
         }
 
         BlockPos finalStructurePos = structurePos;
@@ -251,6 +245,8 @@ public class Util {
                 });
             });
         });
+
+        return structurePos;
     }
 
     private static void attemptEntityDataFileFix(String nbtFilePath, String rawNBT) throws IOException {
@@ -346,24 +342,28 @@ public class Util {
 		}
     }
 
-    public static BlockPos getSpawnPos(ServerLevel serverLevel, BlockPos blockPos, boolean onSurface) {
+    public static BlockPos getSpawnPos(ServerLevel serverLevel, BlockPos blockPos, boolean withOffset, boolean onSurface) {
         int x = blockPos.getX();
         int y = blockPos.getY();
         int z = blockPos.getZ();
-
-        if (onSurface) {
-            y = BlockPosFunctions.getSurfaceBlockPos(serverLevel, x, z).getY();
-        }
 
         if (ConfigHandler.shouldUseSpawnCoordinates) {
             x = ConfigHandler.spawnXCoordinate;
             y = ConfigHandler.spawnYCoordinate;
             z = ConfigHandler.spawnZCoordinate;
+
+            if (ConfigHandler.spawnYCoordinate != 0) {
+                onSurface = false;
+            }
         }
-        if (ConfigHandler.shouldUseSpawnCoordOffsets) {
+        if (ConfigHandler.shouldUseSpawnCoordOffsets && withOffset) {
             x += ConfigHandler.spawnXCoordOffset;
             y += ConfigHandler.spawnYCoordOffset;
             z += ConfigHandler.spawnZCoordOffset;
+        }
+
+        if (onSurface) {
+            y = BlockPosFunctions.getSurfaceBlockPos(serverLevel, x, z, ConfigHandler.ignoreTreesDuringStructurePlacement).getY();
         }
 
         if (y < serverLevel.getMinBuildHeight()) {
