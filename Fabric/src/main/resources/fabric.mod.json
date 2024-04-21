@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "starterstructure",
-  "version": "3.5",
+  "version": "3.6",
 
   "name": "Starter Structure",
   "description": "Allows the creation of a structure on first world generation at spawn via schematic files.",
@@ -23,7 +23,7 @@
     "fabric": "*",
     "minecraft": ">=1.19",
     "java": ">=17",
-    "collective": ">=7.40"
+    "collective": ">=7.41"
   },
 
   "custom": {

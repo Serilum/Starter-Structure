@@ -91,12 +91,13 @@ public class Util {
         if (ConfigHandler.shouldUseStructurePosition) {
             structurePos = new BlockPos(ConfigHandler.generatedStructureXPosition, ConfigHandler.generatedStructureYPosition, ConfigHandler.generatedStructureZPosition);
         }
-        if (ConfigHandler.shouldUseStructureOffset) {
-            structurePos = structurePos.offset(ConfigHandler.generatedStructureXOffset, ConfigHandler.generatedStructureYOffset, ConfigHandler.generatedStructureZOffset).immutable();
-        }
 
         if (ConfigHandler.ignoreTreesDuringStructurePlacement && (!ConfigHandler.shouldUseStructurePosition || ConfigHandler.generatedStructureYPosition == 0)) {
             structurePos = getSpawnPos(serverLevel, BlockPosFunctions.getSurfaceBlockPos(serverLevel, structurePos.getX(), structurePos.getZ(), true), false, false);
+        }
+
+        if (ConfigHandler.shouldUseStructureOffset) {
+            structurePos = structurePos.offset(ConfigHandler.generatedStructureXOffset, ConfigHandler.generatedStructureYOffset, ConfigHandler.generatedStructureZOffset).immutable();
         }
 
 
