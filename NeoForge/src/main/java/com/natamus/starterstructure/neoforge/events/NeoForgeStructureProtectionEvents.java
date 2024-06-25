@@ -5,12 +5,12 @@ import com.natamus.starterstructure.events.StructureProtectionEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import net.neoforged.neoforge.event.level.PistonEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 
 @EventBusSubscriber
 public class NeoForgeStructureProtectionEvents {
@@ -61,7 +61,7 @@ public class NeoForgeStructureProtectionEvents {
 	}
 
 	@SubscribeEvent
-	public static void onLivingAttack(LivingAttackEvent e) {
+	public static void onLivingAttack(LivingIncomingDamageEvent e) {
 		LivingEntity livingEntity = e.getEntity();
 		if (!StructureProtectionEvents.onLivingAttack(livingEntity.level(), livingEntity, e.getSource(), e.getAmount())) {
 			e.setCanceled(true);

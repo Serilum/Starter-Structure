@@ -6,7 +6,7 @@ logoFile="icon.png"
 
 [[mods]]
 modId="starterstructure"
-version="3.7"
+version="3.8"
 displayName="Starter Structure"
 displayURL="https://serilum.com/mod/starter-structure"
 authors="Rick South"
@@ -14,7 +14,7 @@ description='''Allows the creation of a structure on first world generation at s
 '''
 credits='''Thank you very much to my Membership sponsors for supporting the development of this mod:  
 
-Alister, Andrean Olgo, aternosorg, BirdieMiner, Cherriesaurus, Jeremy Langford, Michael W. S., Rare Students, Shana Gitnick, Tyler Behl   
+Alister, Andrean Olgo, aternosorg, BirdieMiner, Cherriesaurus, Michael W. S., Shana Gitnick, Sukhmai, Tyler Behl   
 
 If you would like to contribute too, check out https://serilum.com/donate. Appreciate it! <3   
 '''
@@ -22,7 +22,7 @@ If you would like to contribute too, check out https://serilum.com/donate. Appre
 [[dependencies.starterstructure]]
     modId="collective"
     type="required"
-    versionRange="[7.61,)"
+    versionRange="[7.64,)"
     ordering="NONE"
     side="BOTH"
 
@@ -30,6 +30,13 @@ If you would like to contribute too, check out https://serilum.com/donate. Appre
     modId="minecraft"
     type="required"
     versionRange="[1.21]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.starterstructure]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.0.31,)"
     ordering="NONE"
     side="BOTH"
 
