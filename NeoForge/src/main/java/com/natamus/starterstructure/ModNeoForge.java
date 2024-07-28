@@ -1,6 +1,7 @@
 package com.natamus.starterstructure;
 
 import com.natamus.collective.check.RegisterMod;
+import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.starterstructure.neoforge.config.IntegrateNeoForgeConfig;
 import com.natamus.starterstructure.neoforge.events.NeoForgeStructureCreationEvents;
 import com.natamus.starterstructure.neoforge.events.NeoForgeStructureProtectionEvents;
@@ -17,6 +18,10 @@ import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ModNeoForge {
 	
 	public ModNeoForge(IEventBus modEventBus) {
+		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
+			return;
+		}
+
 		modEventBus.addListener(this::loadComplete);
 
 		setGlobalConstants();

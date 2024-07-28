@@ -1,6 +1,7 @@
 package com.natamus.starterstructure;
 
 import com.natamus.collective.check.RegisterMod;
+import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.collective.fabric.callbacks.*;
 import com.natamus.starterstructure.events.StructureCreationEvents;
 import com.natamus.starterstructure.events.StructureProtectionEvents;
@@ -29,6 +30,10 @@ public class ModFabric implements ModInitializer {
 	
 	@Override
 	public void onInitialize() {
+		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
+			return;
+		}
+
 		setGlobalConstants();
 		ModCommon.init();
 
