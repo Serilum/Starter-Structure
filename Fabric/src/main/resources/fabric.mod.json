@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "starterstructure",
-  "version": "3.8",
+  "version": "3.9",
 
   "name": "Starter Structure",
   "description": "Allows the creation of a structure on first world generation at spawn via schematic files.",
@@ -23,7 +23,7 @@
     "fabric": "*",
     "minecraft": ">=1.21",
     "java": ">=21",
-    "collective": ">=7.64"
+    "collective": ">=7.78"
   },
 
   "custom": {
@@ -44,11 +44,10 @@
 	  " Alister",
 	  " Andrean Olgo",
 	  " aternosorg",
-	  " BirdieMiner",
 	  " Cherriesaurus",
 	  " Michael W. S.",
+	  " Nahuel Fernandez",
 	  " Shana Gitnick",
-	  " Sukhmai",
 	  " Tyler Behl"
   ]
 }

@@ -1,6 +1,7 @@
 package com.natamus.starterstructure;
 
 import com.natamus.collective.check.RegisterMod;
+import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.starterstructure.forge.config.IntegrateForgeConfig;
 import com.natamus.starterstructure.forge.events.ForgeStructureCreationEvents;
 import com.natamus.starterstructure.forge.events.ForgeStructureProtectionEvents;
@@ -17,6 +18,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ModForge {
 	
 	public ModForge() {
+		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
+			return;
+		}
+
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(this::loadComplete);
 
