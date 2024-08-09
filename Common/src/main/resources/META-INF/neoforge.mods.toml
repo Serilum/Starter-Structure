@@ -1,0 +1,44 @@
+modLoader="javafml"
+loaderVersion="*"
+license="All rights reserved"
+issueTrackerURL="https://github.com/Serilum/.issue-tracker/labels/Mod:%20Starter%20Structure"
+logoFile="icon.png"
+
+[[mods]]
+modId="starterstructure"
+version="3.9"
+displayName="Starter Structure"
+displayURL="https://serilum.com/mod/starter-structure"
+authors="Rick South"
+description='''Allows the creation of a structure on first world generation at spawn via schematic files.
+'''
+credits='''Thank you very much to my Membership sponsors for supporting the development of this mod:  
+
+Alister, Andrean Olgo, aternosorg, Cherriesaurus, Michael W. S., Nahuel Fernandez, Shana Gitnick, Tyler Behl   
+
+If you would like to contribute too, check out https://serilum.com/donate. Appreciate it! <3   
+'''
+
+[[dependencies.starterstructure]]
+    modId="collective"
+    type="required"
+    versionRange="[7.80,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.starterstructure]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21,1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.starterstructure]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.0.31,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[mixins]]
+    config = "starterstructure.mixins.json"
