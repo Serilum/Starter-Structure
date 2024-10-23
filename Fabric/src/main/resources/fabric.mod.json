@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "starterstructure",
+  "version": "3.9",
+
+  "name": "Starter Structure",
+  "description": "Allows the creation of a structure on first world generation at spawn via schematic files.",
+  "authors": [ "Rick South" ],
+  "contact": {
+    "homepage": "https://serilum.com/mod/starter-structure",
+    "sources": "https://github.com/Serilum/Starter-Structure",
+    "issues": "https://github.com/Serilum/.issue-tracker/labels/Mod:%20Starter%20Structure"
+  },
+
+  "license": "All Right Reserved",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": { "main": [ "com.natamus.starterstructure.ModFabric" ], "modmenu": [ "com.natamus.starterstructure.fabric.config.IntegrateModMenu" ] },
+
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric": "*",
+    "minecraft": ">=1.21",
+    "java": ">=21",
+    "collective": ">=7.87"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "Donate <3" : "https://ricksouth.com/donate"
+      }
+    }
+  },
+
+  "contributors": [
+	  " ",
+	  "Thank you very much to my Membership sponsors for supporting the development of this mod!",
+	  " ",
+	  "If you would like to contribute too, check out https://serilum.com/donate.",
+	  " ",
+	  "Membership sponsors:",
+	  " Alister",
+	  " Andrean Olgo",
+	  " aternosorg",
+	  " Cherriesaurus",
+	  " kate1073",
+	  " Michael W. S.",
+	  " Tyler Behl",
+	  " XAgent"
+  ]
+}
