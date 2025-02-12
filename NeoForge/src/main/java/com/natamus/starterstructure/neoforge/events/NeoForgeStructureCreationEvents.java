@@ -9,9 +9,7 @@ import net.minecraft.world.level.storage.ServerLevelData;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 
-@EventBusSubscriber
 public class NeoForgeStructureCreationEvents {
 	@SubscribeEvent(receiveCanceled = true, priority = EventPriority.LOWEST)
 	public static void onLevelSpawn(LevelEvent.CreateSpawnPosition e) {
