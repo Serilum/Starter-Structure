@@ -10,12 +10,10 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.level.PistonEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber
 public class ForgeStructureProtectionEvents {
 	@SubscribeEvent
-	public void onBlockBreak(BlockEvent.BreakEvent e) {
+	public static void onBlockBreak(BlockEvent.BreakEvent e) {
 		Level level = WorldFunctions.getWorldIfInstanceOfAndNotRemote(e.getLevel());
 		if (level == null) {
 			return;
@@ -27,7 +25,7 @@ public class ForgeStructureProtectionEvents {
 	}
 
 	@SubscribeEvent
-	public void onBlockPlace(BlockEvent.EntityPlaceEvent e) {
+	public static void onBlockPlace(BlockEvent.EntityPlaceEvent e) {
 		Level level = WorldFunctions.getWorldIfInstanceOfAndNotRemote(e.getLevel());
 		if (level == null) {
 			return;
@@ -44,7 +42,7 @@ public class ForgeStructureProtectionEvents {
 	}
 
 	@SubscribeEvent
-	public void onPistonMove(PistonEvent.Pre e) {
+	public static void onPistonMove(PistonEvent.Pre e) {
 		Level level = WorldFunctions.getWorldIfInstanceOfAndNotRemote(e.getLevel());
 		if (level == null) {
 			return;
@@ -56,12 +54,12 @@ public class ForgeStructureProtectionEvents {
 	}
 
 	@SubscribeEvent
-	public void onTNTExplode(ExplosionEvent.Detonate e) {
+	public static void onTNTExplode(ExplosionEvent.Detonate e) {
 		StructureProtectionEvents.onTNTExplode(e.getLevel(), null, e.getExplosion());
 	}
 
 	@SubscribeEvent
-	public void onLivingAttack(LivingAttackEvent e) {
+	public static void onLivingAttack(LivingAttackEvent e) {
 		LivingEntity livingEntity = e.getEntity();
 		if (!StructureProtectionEvents.onLivingAttack(livingEntity.level(), livingEntity, e.getSource(), e.getAmount())) {
 			e.setCanceled(true);

@@ -7,12 +7,10 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber
 public class ForgeStructureSpawnPointEvents {
 	@SubscribeEvent
-	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e) {
+	public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e) {
 		Player player = e.getEntity();
 		Level world = player.level();
 		if (world.isClientSide) {
@@ -23,7 +21,7 @@ public class ForgeStructureSpawnPointEvents {
 	}
 
 	@SubscribeEvent
-	public void onEntityJoin(EntityJoinLevelEvent e) {
+	public static void onEntityJoin(EntityJoinLevelEvent e) {
 		StructureSpawnPointEvents.onEntityJoin(e.getLevel(), e.getEntity());
 	}
 }
