@@ -34,9 +34,9 @@ public class ModForge {
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
-        MinecraftForge.EVENT_BUS.register(new ForgeStructureProtectionEvents());
-    	MinecraftForge.EVENT_BUS.register(new ForgeStructureCreationEvents());
-        MinecraftForge.EVENT_BUS.register(new ForgeStructureSpawnPointEvents());
+        MinecraftForge.EVENT_BUS.register(ForgeStructureProtectionEvents.class);
+    	MinecraftForge.EVENT_BUS.register(ForgeStructureCreationEvents.class);
+        MinecraftForge.EVENT_BUS.register(ForgeStructureSpawnPointEvents.class);
 	}
 
 	private static void setGlobalConstants() {

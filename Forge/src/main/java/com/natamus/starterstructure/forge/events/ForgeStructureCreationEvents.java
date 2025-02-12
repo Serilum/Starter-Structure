@@ -9,12 +9,10 @@ import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber
 public class ForgeStructureCreationEvents {
 	@SubscribeEvent(receiveCanceled = true, priority = EventPriority.LOWEST)
-	public void onLevelSpawn(LevelEvent.CreateSpawnPosition e) {
+	public static void onLevelSpawn(LevelEvent.CreateSpawnPosition e) {
 		Level level = WorldFunctions.getWorldIfInstanceOfAndNotRemote(e.getLevel());
 		if (level == null) {
 			return;
@@ -26,7 +24,7 @@ public class ForgeStructureCreationEvents {
 	}
 
 	@SubscribeEvent
-	public void onLevelLoad(LevelEvent.Load e) {
+	public static void onLevelLoad(LevelEvent.Load e) {
 		Level level = WorldFunctions.getWorldIfInstanceOfAndNotRemote(e.getLevel());
 		if (level == null) {
 			return;
