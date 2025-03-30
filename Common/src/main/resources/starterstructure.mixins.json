@@ -4,13 +4,11 @@
   "package": "com.natamus.starterstructure.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-
+    "ServerPlayerMixin"
   ],
   "client": [
-  
   ],
   "server": [
-
   ],
   "injectors": {
     "defaultRequire": 1

@@ -5,7 +5,6 @@ import com.natamus.starterstructure.events.StructureProtectionEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.level.PistonEvent;
@@ -56,13 +55,5 @@ public class ForgeStructureProtectionEvents {
 	@SubscribeEvent
 	public static void onTNTExplode(ExplosionEvent.Detonate e) {
 		StructureProtectionEvents.onTNTExplode(e.getLevel(), null, e.getExplosion());
-	}
-
-	@SubscribeEvent
-	public static void onLivingAttack(LivingAttackEvent e) {
-		LivingEntity livingEntity = e.getEntity();
-		if (!StructureProtectionEvents.onLivingAttack(livingEntity.level(), livingEntity, e.getSource(), e.getAmount())) {
-			e.setCanceled(true);
-		}
 	}
 }

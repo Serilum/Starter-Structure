@@ -12,6 +12,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +37,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Util {
-    public static HashMap<Level, List<BlockPos>> protectedMap = new HashMap<Level, List<BlockPos>>();
+    public static HashMap<ResourceKey<Level>, List<BlockPos>> protectedMap = new HashMap<>();
 
     private static final String dirpath = DataFunctions.getConfigDirectory() + File.separator + Reference.MOD_ID;
     private static final File schematicDir = new File(dirpath + File.separator + "schematics");
@@ -65,7 +66,7 @@ public class Util {
             }
         }
 
-        List<File> listOfSchematicFiles = new ArrayList<File>();
+        List<File> listOfSchematicFiles = new ArrayList<>();
 
         File[] listOfFiles = schematicDir.listFiles();
         for (File file : listOfFiles) {
@@ -74,7 +75,7 @@ public class Util {
             }
         }
 
-        if (listOfSchematicFiles.size() == 0) {
+        if (listOfSchematicFiles.isEmpty()) {
             logger.info(logPrefix + "No schematics found to generate the starter structure.");
             return null;
         }
@@ -123,12 +124,12 @@ public class Util {
         minecraftServer.execute(() -> {
             List<BlockPos> protectedList = null;
             if (ConfigHandler.protectStructureBlocks) {
-                protectedList = new ArrayList<BlockPos>();
+                protectedList = new ArrayList<>();
             }
 
             int yoffset = ConfigHandler.generatedStructureYOffset;
 
-            logger.info(logPrefix + "Generating starter structure with " + parsedSchematicObject.blocks.size() + " blocks.");
+            logger.info(logPrefix + "Generating starter structure with {} blocks.", parsedSchematicObject.blocks.size());
             for (Pair<BlockPos, BlockState> blockPair : parsedSchematicObject.blocks) {
                 BlockState blockState = blockPair.getSecond();
                 Block block = blockState.getBlock();
@@ -156,8 +157,7 @@ public class Util {
                 for (Pair<BlockPos, BlockEntity> blockEntityPair : parsedSchematicObject.getBlockEntities(serverLevel)) {
                     BlockPos blockPos = blockEntityPair.getFirst();
                     BlockEntity blockEntity = blockEntityPair.getSecond();
-                    if (blockEntity instanceof SignBlockEntity) {
-                        SignBlockEntity signBlockEntity = (SignBlockEntity)blockEntity;
+                    if (blockEntity instanceof SignBlockEntity signBlockEntity) {
                         List<String> signLines = SignFunctions.getSignText(signBlockEntity);
 
                         String firstLine = signLines.get(0);
@@ -186,14 +186,14 @@ public class Util {
                                         Optional<Entity> optionalNewEntity = EntityType.create(entityCompoundTag, serverLevel);
                                         if (optionalNewEntity.isPresent()) {
                                             if (n != 1) {
-                                                logger.info(logPrefix + "Unable to parse the " + signContent + ".txt entitydata file. Attempting automatic fix.");
+                                                logger.info(logPrefix + "Unable to parse the {}.txt entitydata file. Attempting automatic fix. (1)", signContent);
                                             }
 
                                             newEntity = optionalNewEntity.get();
                                             n = -1;
                                         }
                                     } catch (Exception ex) {
-                                        logger.info(logPrefix + "Unable to parse the " + signContent + ".txt entitydata file. Attempting automatic fix.");
+                                        logger.info(logPrefix + "Unable to parse the {}.txt entitydata file. Attempting automatic fix. (2)", signContent);
                                         try {
                                             attemptEntityDataFileFix(nbtFilePath, rawNBT);
                                         }
@@ -218,7 +218,7 @@ public class Util {
                 }
 
                 if (ConfigHandler.spawnNonSignEntitiesFromSupportedSchematics) {
-                    if (parsedSchematicObject.entities.size() > 0) {
+                    if (!parsedSchematicObject.entities.isEmpty()) {
                         for (Pair<BlockPos, Entity> entityPair : parsedSchematicObject.entities) {
                             Entity newEntity = entityPair.getSecond();
                             newEntity.getTags().add(Reference.MOD_ID + ".protected");
@@ -266,7 +266,7 @@ public class Util {
                 }
             }
 
-            if (!idValue.equals("")) {
+            if (!idValue.isEmpty()) {
                 newRawNBT = "{" + idValue + newRawNBT;
                 Files.write(Path.of(nbtFilePath), newRawNBT.getBytes());
             }
@@ -278,7 +278,7 @@ public class Util {
     }
 
     private static void writeProtectedList(ServerLevel serverLevel, List<BlockPos> protectedList) {
-        protectedMap.put(serverLevel, protectedList);
+        protectedMap.put(serverLevel.dimension(), protectedList);
 
         String protectedPath = WorldFunctions.getWorldPath(serverLevel) + File.separator + "data" + File.separator + Reference.MOD_ID + File.separator + "protection" + File.separator + DimensionFunctions.getSimpleDimensionString(serverLevel);
         File protectedPathDir = new File(protectedPath);
@@ -316,7 +316,7 @@ public class Util {
         try {
             String rawProtectedList = new String(Files.readAllBytes(Paths.get(protectedFilePath)));
 
-            List<BlockPos> newProtectedList = new ArrayList<BlockPos>();
+            List<BlockPos> newProtectedList = new ArrayList<>();
             for (String coordinateString : rawProtectedList.split("\n")) {
                 String[] csspl = coordinateString.split(",");
                 if (csspl.length == 3) {
@@ -327,8 +327,8 @@ public class Util {
                 }
             }
 
-            if (newProtectedList.size() > 0) {
-                protectedMap.put(serverLevel, newProtectedList);
+            if (!newProtectedList.isEmpty()) {
+                protectedMap.put(serverLevel.dimension(), newProtectedList);
             }
         } catch (IOException ignored) { }
     }
