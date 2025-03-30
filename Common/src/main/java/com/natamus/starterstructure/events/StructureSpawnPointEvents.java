@@ -47,12 +47,11 @@ public class StructureSpawnPointEvents {
 			return;
 		}
 
-		if (!(entity instanceof Player)) {
+		if (!(entity instanceof Player player)) {
 			return;
 		}
 
-		Player player = (Player)entity;
-		if (!PlayerFunctions.isJoiningWorldForTheFirstTime(player, Reference.MOD_ID, false)) {
+        if (!PlayerFunctions.isJoiningWorldForTheFirstTime(player, Reference.MOD_ID, false)) {
 			return;
 		}
 

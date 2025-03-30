@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.ServerLevelData;
 
 public class StructureCreationEvents {
 	public static InteractionResult onLevelSpawn(ServerLevel serverLevel, ServerLevelData serverLevelData) {
-		TaskFunctions.enqueueCollectiveTask(serverLevel.getServer(), () -> {
+		TaskFunctions.enqueueCollectiveServerTask(serverLevel.getServer(), () -> {
 			if (ConfigHandler.shouldGenerateStructure) {
 				BlockPos spawnPos = null;
 

@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import net.neoforged.neoforge.event.level.PistonEvent;
@@ -56,13 +55,5 @@ public class NeoForgeStructureProtectionEvents {
 	@SubscribeEvent
 	public static void onTNTExplode(ExplosionEvent.Detonate e) {
 		StructureProtectionEvents.onTNTExplode(e.getLevel(), null, e.getExplosion());
-	}
-
-	@SubscribeEvent
-	public static void onLivingAttack(LivingIncomingDamageEvent e) {
-		LivingEntity livingEntity = e.getEntity();
-		if (!StructureProtectionEvents.onLivingAttack(livingEntity.level(), livingEntity, e.getSource(), e.getAmount())) {
-			e.setCanceled(true);
-		}
 	}
 }
