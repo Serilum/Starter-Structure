@@ -5,9 +5,10 @@ import com.natamus.starterstructure.util.Reference;
 import com.natamus.starterstructure.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
@@ -27,17 +28,13 @@ public class StructureProtectionEvents {
 			}
 		}
 
-		if (Util.protectedMap.containsKey(level)) {
-			return !Util.protectedMap.get(level).contains(pos);
+		if (Util.protectedMap.containsKey(level.dimension())) {
+			return !Util.protectedMap.get(level.dimension()).contains(pos);
 		}
 		return true;
 	}
 
 	public static boolean onBlockPlace(Level level, BlockPos blockPos, BlockState blockState, LivingEntity livingEntity, ItemStack itemStack) {
-		if (level.isClientSide) {
-			return true;
-		}
-
 		if (ConfigHandler.playersInCreativeModeIgnoreProtection) {
 			if (livingEntity instanceof Player) {
 				if (((Player) livingEntity).isCreative()) {
@@ -46,8 +43,8 @@ public class StructureProtectionEvents {
 			}
 		}
 
-		if (Util.protectedMap.containsKey(level)) {
-			return !Util.protectedMap.get(level).contains(blockPos);
+		if (Util.protectedMap.containsKey(level.dimension())) {
+			return !Util.protectedMap.get(level.dimension()).contains(blockPos);
 		}
 		return true;
 	}
@@ -56,8 +53,8 @@ public class StructureProtectionEvents {
 		BlockPos faceOffsetPos = blockPos.relative(direction);
 		BlockPos nextPos = faceOffsetPos.relative(direction);
 
-		if (Util.protectedMap.containsKey(level)) {
-			return !Util.protectedMap.get(level).contains(faceOffsetPos) && !Util.protectedMap.get(level).contains(nextPos);
+		if (Util.protectedMap.containsKey(level.dimension())) {
+			return !Util.protectedMap.get(level.dimension()).contains(faceOffsetPos) && !Util.protectedMap.get(level.dimension()).contains(nextPos);
 		}
 		return true;
 	}
@@ -72,9 +69,9 @@ public class StructureProtectionEvents {
 		}
 
 		boolean cancel = false;
-		if (Util.protectedMap.containsKey(level)) {
+		if (Util.protectedMap.containsKey(level.dimension())) {
 			for (BlockPos affectedPos : explosion.getToBlow()) {
-				if (Util.protectedMap.get(level).contains(affectedPos)) {
+				if (Util.protectedMap.get(level.dimension()).contains(affectedPos)) {
 					cancel = true;
 					break;
 				}
@@ -87,15 +84,22 @@ public class StructureProtectionEvents {
 		}
 	}
 
-	public static boolean onLivingAttack(Level level, Entity entity, DamageSource damageSource, float damageAmount) {
+	public static boolean onEntityAttack(Player player, Level level, Entity targetEntity) {
+		if (ConfigHandler.playersInCreativeModeIgnoreEntityProtection) {
+			if (player.isCreative()) {
+				return true;
+			}
+		}
+
 		if (ConfigHandler.protectSpawnedEntities) {
-			if (entity.getTags().contains(Reference.MOD_ID + ".protected")) {
-				if (ConfigHandler.playersInCreativeModeIgnoreEntityProtection) {
-					if (damageSource.getEntity() instanceof Player) {
-						return ((Player)damageSource.getEntity()).isCreative();
-					}
-				}
+			if (targetEntity.getTags().contains(Reference.MOD_ID + ".protected")) {
 				return false;
+			}
+		}
+
+		if (targetEntity instanceof Painting || targetEntity instanceof ItemFrame) {
+			if (Util.protectedMap.containsKey(level.dimension())) {
+				return !Util.protectedMap.get(level.dimension()).contains(targetEntity.blockPosition());
 			}
 		}
 		return true;
