@@ -2,7 +2,10 @@ package com.natamus.starterstructure;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.collective.fabric.callbacks.*;
+import com.natamus.collective.fabric.callbacks.CollectiveBlockEvents;
+import com.natamus.collective.fabric.callbacks.CollectiveExplosionEvents;
+import com.natamus.collective.fabric.callbacks.CollectiveMinecraftServerEvents;
+import com.natamus.collective.fabric.callbacks.CollectivePistonEvents;
 import com.natamus.starterstructure.events.StructureCreationEvents;
 import com.natamus.starterstructure.events.StructureProtectionEvents;
 import com.natamus.starterstructure.events.StructureSpawnPointEvents;
@@ -17,7 +20,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -67,10 +69,6 @@ public class ModFabric implements ModInitializer {
 
 		CollectiveExplosionEvents.EXPLOSION_DETONATE.register((Level level, Entity sourceEntity, Explosion explosion) -> {
 			StructureProtectionEvents.onTNTExplode(level, sourceEntity, explosion);
-		});
-
-		CollectiveEntityEvents.ON_LIVING_ATTACK.register((Level level, Entity entity, DamageSource damageSource, float damageAmount) -> {
-			return StructureProtectionEvents.onLivingAttack(level, entity, damageSource, damageAmount);
 		});
 
 		// StructureSpawnPointEvents
