@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "starterstructure",
-  "version": "4.5",
+  "version": "4.6",
 
   "name": "Starter Structure",
   "description": "Allows the creation of a structure on first world generation at spawn via schematic files.",
@@ -26,7 +26,7 @@
     "fabric-api": "*",
     "minecraft": ">=26.1",
     "java": ">=25",
-    "collective": ">=8.17"
+    "collective": ">=8.22"
   },
 
   "custom": {
@@ -45,14 +45,11 @@
 	  " ",
 	  "Membership sponsors:",
 	  " akanealw",
-	  " Alister",
 	  " Andrean Olgo",
 	  " aternosorg",
 	  " Cherriesaurus",
 	  " MWS",
-	  " t128",
 	  " Tyler Behl",
-	  " XAgent",
-	  " ตัวตรึง พระนคร"
+	  " XAgent"
   ]
 }

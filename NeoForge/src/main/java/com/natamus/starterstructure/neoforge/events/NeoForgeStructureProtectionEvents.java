@@ -9,10 +9,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import net.neoforged.neoforge.event.level.PistonEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
 public class NeoForgeStructureProtectionEvents {
 	@SubscribeEvent
-	public static void onBlockBreak(BlockEvent.BreakEvent e) {
+	public static void onBlockBreak(BreakBlockEvent e) {
 		Level level = WorldFunctions.getWorldIfInstanceOfAndNotRemote(e.getLevel());
 		if (level == null) {
 			return;
