@@ -17,12 +17,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.util.ProblemReporter;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -190,7 +187,7 @@ public class Util {
                                         rawNBT = new String(Files.readAllBytes(Paths.get(nbtFilePath)));
 
                                         CompoundTag entityCompoundTag = TagParser.parseCompoundFully(rawNBT);
-                                        Optional<Entity> optionalNewEntity = EntityType.create(TagValueInput.create(new ProblemReporter.Collector(), serverLevel.registryAccess(), entityCompoundTag), serverLevel, EntitySpawnReason.STRUCTURE);
+                                        Optional<Entity> optionalNewEntity = EntityType.create(TagValueInput.create(new ProblemReporter.Collector(), serverLevel.registryAccess(), entityCompoundTag), serverLevel, new EntitySpawnRequest(EntitySpawnReason.STRUCTURE, true));
                                         if (optionalNewEntity.isPresent()) {
                                             if (n != 1) {
                                                 logger.info(logPrefix + "Unable to parse the {}.txt entitydata file. Attempting automatic fix. (1)", signContent);
