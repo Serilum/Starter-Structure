@@ -1,5 +1,5 @@
 <h2>Starter Structure</h2>
-<p><a href="https://github.com/Serilum/Starter-Structure"><img src="https://serilum.com/assets/images/logo/starter-structure.png"></a></p><h2>Download</h2>
+<p><a href="https://github.com/Serilum/Starter-Structure"><img src="https://workflow.serilum.com/web/logo/128/starter-structure.png" width="100" height="100"></a></p><h2>Download</h2>
 <p>You can download Starter Structure on CurseForge and Modrinth:</p><p>&nbsp;&nbsp;CurseForge: &nbsp;&nbsp;<a href="https://curseforge.com/minecraft/mc-mods/starter-structure">https://curseforge.com/minecraft/mc-mods/starter-structure</a><br>&nbsp;&nbsp;Modrinth: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://modrinth.com/mod/starter-structure">https://modrinth.com/mod/starter-structure</a></p>
 <h2>Issue Tracker</h2>
 <p>To keep a better overview of all mods, the issue tracker is located in a separate repository.<br>&nbsp;&nbsp;For issues, ideas, suggestions or anything else, please follow this link:</p>
