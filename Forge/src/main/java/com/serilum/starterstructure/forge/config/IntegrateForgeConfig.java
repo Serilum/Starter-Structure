@@ -1,7 +1,7 @@
-package com.natamus.starterstructure.forge.config;
+package com.serilum.starterstructure.forge.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.starterstructure.util.Reference;
+import com.serilum.starterstructure.util.Reference;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 

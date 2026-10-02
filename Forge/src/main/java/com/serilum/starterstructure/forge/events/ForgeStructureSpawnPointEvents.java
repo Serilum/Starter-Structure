@@ -1,6 +1,6 @@
-package com.natamus.starterstructure.forge.events;
+package com.serilum.starterstructure.forge.events;
 
-import com.natamus.starterstructure.events.StructureSpawnPointEvents;
+import com.serilum.starterstructure.events.StructureSpawnPointEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;

@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "id": "starterstructure",
-  "version": "4.2",
+  "version": "4.8",
 
   "name": "Starter Structure",
   "description": "Allows the creation of a structure on first world generation at spawn via schematic files.",
-  "authors": [ "Rick South" ],
+  "authors": [ "Serilum" ],
   "contact": {
     "homepage": "https://serilum.com/mod/starter-structure",
     "sources": "https://github.com/Serilum/Starter-Structure",
     "issues": "https://github.com/Serilum/.issue-tracker/labels/Mod:%20Starter%20Structure"
   },
 
-  "license": "All Right Reserved",
+  "license": "All Rights Reserved",
   "icon": "icon.png",
 
   "environment": "*",
-  "entrypoints": { "main": [ "com.natamus.starterstructure.ModFabric" ], "modmenu": [ "com.natamus.starterstructure.fabric.config.IntegrateModMenu" ] },
+  "entrypoints": { "main": [ "com.serilum.starterstructure.ModFabric" ], "modmenu": [ "com.serilum.starterstructure.fabric.config.IntegrateModMenu" ] },
   "mixins": [
     "starterstructure.mixins.json"
   ],
@@ -26,13 +26,13 @@
     "fabric": "*",
     "minecraft": ">=1.20",
     "java": ">=17",
-    "collective": ">=8.1"
+    "collective": ">=8.40"
   },
 
   "custom": {
     "modmenu": {
       "links": {
-        "Donate <3" : "https://ricksouth.com/donate"
+        "Donate <3" : "https://serilum.com/donate"
       }
     }
   },
@@ -41,16 +41,15 @@
 	  " ",
 	  "Thank you very much to my Membership sponsors for supporting the development of this mod!",
 	  " ",
-	  "If you would like to contribute too, check out https://serilum.com/donate.",
+	  "If you would like to contribute too, check out https://serilum.com/donate",
 	  " ",
 	  "Membership sponsors:",
-	  " Alister",
 	  " Andrean Olgo",
+	  " AnyankaT",
 	  " aternosorg",
 	  " Cherriesaurus",
-	  " Michael W. S.",
-	  " t128",
-	  " Tyler Behl",
-	  " XAgent"
+	  " Linda Jansen",
+	  " MWS",
+	  " Tyler Behl"
   ]
 }

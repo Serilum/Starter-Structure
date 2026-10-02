@@ -1,7 +1,7 @@
-package com.natamus.starterstructure;
+package com.serilum.starterstructure;
 
-import com.natamus.starterstructure.config.ConfigHandler;
-import com.natamus.starterstructure.util.Util;
+import com.serilum.starterstructure.config.ConfigHandler;
+import com.serilum.starterstructure.util.Util;
 
 public class ModCommon {
 

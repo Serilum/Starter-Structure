@@ -1,9 +1,9 @@
-package com.natamus.starterstructure.events;
+package com.serilum.starterstructure.events;
 
 import com.natamus.collective.functions.PlayerFunctions;
-import com.natamus.starterstructure.config.ConfigHandler;
-import com.natamus.starterstructure.util.Reference;
-import com.natamus.starterstructure.util.Util;
+import com.serilum.starterstructure.config.ConfigHandler;
+import com.serilum.starterstructure.util.Reference;
+import com.serilum.starterstructure.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

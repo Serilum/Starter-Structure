@@ -1,4 +1,4 @@
-package com.natamus.starterstructure;
+package com.serilum.starterstructure;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
@@ -6,10 +6,10 @@ import com.natamus.collective.fabric.callbacks.CollectiveBlockEvents;
 import com.natamus.collective.fabric.callbacks.CollectiveExplosionEvents;
 import com.natamus.collective.fabric.callbacks.CollectiveMinecraftServerEvents;
 import com.natamus.collective.fabric.callbacks.CollectivePistonEvents;
-import com.natamus.starterstructure.events.StructureCreationEvents;
-import com.natamus.starterstructure.events.StructureProtectionEvents;
-import com.natamus.starterstructure.events.StructureSpawnPointEvents;
-import com.natamus.starterstructure.util.Reference;
+import com.serilum.starterstructure.events.StructureCreationEvents;
+import com.serilum.starterstructure.events.StructureProtectionEvents;
+import com.serilum.starterstructure.events.StructureSpawnPointEvents;
+import com.serilum.starterstructure.util.Reference;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;

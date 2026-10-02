@@ -1,7 +1,7 @@
-package com.natamus.starterstructure.forge.events;
+package com.serilum.starterstructure.forge.events;
 
 import com.natamus.collective.functions.WorldFunctions;
-import com.natamus.starterstructure.events.StructureProtectionEvents;
+import com.serilum.starterstructure.events.StructureProtectionEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;

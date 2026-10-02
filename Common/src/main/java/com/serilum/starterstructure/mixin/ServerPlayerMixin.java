@@ -1,6 +1,6 @@
-package com.natamus.starterstructure.mixin;
+package com.serilum.starterstructure.mixin;
 
-import com.natamus.starterstructure.events.StructureProtectionEvents;
+import com.serilum.starterstructure.events.StructureProtectionEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

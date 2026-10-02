@@ -1,7 +1,7 @@
-package com.natamus.starterstructure.config;
+package com.serilum.starterstructure.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.starterstructure.util.Reference;
+import com.serilum.starterstructure.util.Reference;
 
 import java.util.Arrays;
 import java.util.HashMap;

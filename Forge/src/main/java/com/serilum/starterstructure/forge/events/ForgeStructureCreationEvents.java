@@ -1,7 +1,7 @@
-package com.natamus.starterstructure.forge.events;
+package com.serilum.starterstructure.forge.events;
 
 import com.natamus.collective.functions.WorldFunctions;
-import com.natamus.starterstructure.events.StructureCreationEvents;
+import com.serilum.starterstructure.events.StructureCreationEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
