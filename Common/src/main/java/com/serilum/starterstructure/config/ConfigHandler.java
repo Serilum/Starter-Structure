@@ -43,7 +43,7 @@ public class ConfigHandler extends DuskConfig {
 
 	public static void initConfig() {
 		configMetaData.put("shouldGenerateStructure", Arrays.asList(
-			"Whether a schematic that's located in './config/starterstructure/schematics/...' should be generated."
+			"Whether a schematic that's located in './config/serilum/starterstructure/schematics/...' should be generated."
 		));
 		configMetaData.put("forceExactSpawn", Arrays.asList(
 			"Usually player spawn points are in a randomized area. With this enabled, players will always spawn at the set coordinates (at the nearest air pocket)."
