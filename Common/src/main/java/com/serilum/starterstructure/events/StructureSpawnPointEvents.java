@@ -10,24 +10,19 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 
 public class StructureSpawnPointEvents {
 	public static void onPlayerRespawn(ServerPlayer oldPlayer, ServerPlayer serverPlayer, boolean alive) {
 		if (ConfigHandler.forceExactSpawn) {
+			if (serverPlayer.getRespawnPosition() != null) {
+				return;
+			}
+
 			ServerLevel serverLevel = (ServerLevel)serverPlayer.level();
 
 			BlockPos respawnlocation = serverLevel.getSharedSpawnPos();
 			Vec3 respawnvec = new Vec3(respawnlocation.getX()+0.5, respawnlocation.getY(), respawnlocation.getZ()+0.5);
-
-			BlockPos bedpos = serverPlayer.getRespawnPosition();
-			if (bedpos != null) {
-				DimensionTransition optionalbed = serverPlayer.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
-				if (!optionalbed.missingRespawnBlock()) {
-					return;
-				}
-			}
 
 			serverPlayer.teleportTo(respawnvec.x, respawnvec.y, respawnvec.z);
 		}

@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.ServerLevelData;
 public class StructureCreationEvents {
 	public static InteractionResult onLevelSpawn(ServerLevel serverLevel, ServerLevelData serverLevelData) {
 		TaskFunctions.enqueueCollectiveServerTask(serverLevel.getServer(), () -> {
-			if (ConfigHandler.shouldGenerateStructure) {
+			if (ConfigHandler.shouldGenerateStructure && !Util.hasGeneratedStructure(serverLevel)) {
 				BlockPos spawnPos = null;
 
 				BlockPos structurePos = Util.generateSchematic(serverLevel);
@@ -30,7 +30,7 @@ public class StructureCreationEvents {
 					try {
 						WorldOptions worldOptions = serverLevel.getServer().getWorldData().worldGenOptions();
 
-						if (worldOptions.generateBonusChest()) {
+						if (worldOptions.generateBonusChest() && !Util.hasBonusChestInChunk(serverLevel, spawnPos)) {
 							FeatureFunctions.placeBonusChest(serverLevel, spawnPos);
 						}
 					}

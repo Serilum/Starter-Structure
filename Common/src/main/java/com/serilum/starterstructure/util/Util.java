@@ -23,8 +23,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -94,7 +96,7 @@ public class Util {
 			structurePos = new BlockPos(ConfigHandler.generatedStructureXPosition, ConfigHandler.generatedStructureYPosition, ConfigHandler.generatedStructureZPosition);
 		}
 
-		if (ConfigHandler.ignoreTreesDuringStructurePlacement && (!ConfigHandler.shouldUseStructurePosition || ConfigHandler.generatedStructureYPosition == 0)) {
+		if (ConfigHandler.ignoreTreesDuringStructurePlacement && (!ConfigHandler.shouldUseStructurePosition || ConfigHandler.generatedStructureYPosition == 0) && !serverLevel.dimensionType().hasCeiling()) {
 			structurePos = getSpawnPos(serverLevel, BlockPosFunctions.getSurfaceBlockPos(serverLevel, structurePos.getX(), structurePos.getZ(), true), false, false);
 		}
 
@@ -113,10 +115,12 @@ public class Util {
 			return null;
 		}
 
-		if (!parsedSchematicObject.parsedCorrectly) {
+		if (parsedSchematicObject == null || !parsedSchematicObject.parsedCorrectly) {
 			logger.info(logPrefix + "The starter structure object was not parsed correctly.");
 			return null;
 		}
+
+		writeGeneratedMarker(serverLevel, schematicFile.getName());
 
 		BlockPos finalStructurePos = structurePos;
 		MinecraftServer minecraftServer = serverLevel.getServer();
@@ -128,6 +132,7 @@ public class Util {
 			}
 
 			int yoffset = ConfigHandler.generatedStructureYOffset;
+			Set<BlockPos> blockEntityPositions = new HashSet<>(parsedSchematicObject.blockEntityPositions);
 
 			logger.info(logPrefix + "Generating starter structure with {} blocks.", parsedSchematicObject.blocks.size());
 			for (Pair<BlockPos, BlockState> blockPair : parsedSchematicObject.blocks) {
@@ -140,6 +145,9 @@ public class Util {
 				}
 
 				serverLevel.setBlock(blockPair.getFirst(), blockState, 3);
+				if (blockEntityPositions.contains(blockPair.getFirst())) {
+					parsedSchematicObject.placeBlockEntityInWorld(serverLevel, blockPair.getFirst());
+				}
 
 				if (protectedList != null) {
 					protectedList.add(blockPair.getFirst());
@@ -151,8 +159,6 @@ public class Util {
 			}
 
 			minecraftServer.execute(() -> {
-				parsedSchematicObject.placeBlockEntitiesInWorld(serverLevel);
-
 				Registry<EntityType<?>> entityTypeRegistry = serverLevel.registryAccess().registryOrThrow(Registries.ENTITY_TYPE);
 				for (Pair<BlockPos, BlockEntity> blockEntityPair : parsedSchematicObject.getBlockEntities(serverLevel)) {
 					BlockPos blockPos = blockEntityPair.getFirst();
@@ -257,12 +263,15 @@ public class Util {
 			String newRawNBT = rawSplit[1];
 
 			String idValue = "";
-			if (prefix.contains(":")) {
-				String[] prefixSplit = prefix.split(" ");
-				for (String word : prefixSplit) {
-					if (word.contains(":")) {
-						idValue = "id:\"" + word + "\",";
-					}
+			String[] prefixSplit = prefix.strip().split("\\s+");
+			for (int i = 0; i < prefixSplit.length; i++) {
+				String word = prefixSplit[i];
+				if (word.endsWith("summon") && i + 1 < prefixSplit.length) {
+					idValue = "id:\"" + prefixSplit[i + 1] + "\",";
+					break;
+				}
+				if (word.contains(":")) {
+					idValue = "id:\"" + word + "\",";
 				}
 			}
 
@@ -273,8 +282,42 @@ public class Util {
 		}
 	}
 
+	public static boolean hasBonusChestInChunk(ServerLevel serverLevel, BlockPos pos) {
+		for (BlockEntity blockEntity : serverLevel.getChunkAt(pos).getBlockEntities().values()) {
+			if (blockEntity instanceof RandomizableContainerBlockEntity randomizableContainerBlockEntity) {
+				if (BuiltInLootTables.SPAWN_BONUS_CHEST.equals(randomizableContainerBlockEntity.getLootTable())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	private static boolean isSpawnablePos(Level level, BlockPos pos) {
 		return level.getBlockState(pos).getBlock().equals(Blocks.AIR);
+	}
+
+	private static String getWorldDataPath(ServerLevel serverLevel) {
+		return WorldFunctions.getWorldPath(serverLevel) + File.separator + "data" + File.separator + Reference.MOD_ID;
+	}
+
+	public static boolean hasGeneratedStructure(ServerLevel serverLevel) {
+		String worldDataPath = getWorldDataPath(serverLevel);
+		return new File(worldDataPath + File.separator + "generated.txt").isFile() || new File(worldDataPath + File.separator + "protection").isDirectory();
+	}
+
+	private static void writeGeneratedMarker(ServerLevel serverLevel, String schematicName) {
+		File worldDataDir = new File(getWorldDataPath(serverLevel));
+		if (!worldDataDir.isDirectory()) {
+			worldDataDir.mkdirs();
+		}
+
+		try {
+			FileWriter writer = new FileWriter(worldDataDir + File.separator + "generated.txt");
+			writer.write(schematicName + "\n");
+			writer.close();
+		}
+		catch (IOException ignored) { }
 	}
 
 	private static void writeProtectedList(ServerLevel serverLevel, List<BlockPos> protectedList) {
