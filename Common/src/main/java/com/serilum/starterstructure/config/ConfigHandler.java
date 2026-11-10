@@ -11,9 +11,13 @@ public class ConfigHandler extends DuskConfig {
 	public static HashMap<String, List<String>> configMetaData = new HashMap<String, List<String>>();
 
 	@Entry public static boolean shouldGenerateStructure = true;
+	@Entry(registry = "dimension", single = true) public static String structureDimension = "minecraft:overworld";
 	@Entry public static boolean forceExactSpawn = true;
 	@Entry public static boolean ignoreTreesDuringStructurePlacement = true;
+	@Entry public static boolean fitStructureToTerrain = true;
 	@Entry public static boolean generationIgnoreJigsawAndStructureBlocks = true;
+	@Entry public static boolean generateJigsawStructures = false;
+	@Entry(min = 0, max = 20) public static int jigsawGenerationLevels = 6;
 	@Entry public static boolean protectStructureBlocks = true;
 	@Entry public static boolean protectSpawnedEntities = true;
 	@Entry public static boolean playersInCreativeModeIgnoreProtection = true;
@@ -45,14 +49,26 @@ public class ConfigHandler extends DuskConfig {
 		configMetaData.put("shouldGenerateStructure", Arrays.asList(
 			"Whether a schematic that's located in './config/serilum/starterstructure/schematics/...' should be generated."
 		));
+		configMetaData.put("structureDimension", Arrays.asList(
+			"The dimension the structure generates in. Outside the overworld, it generates where the first player arrives."
+		));
 		configMetaData.put("forceExactSpawn", Arrays.asList(
 			"Usually player spawn points are in a randomized area. With this enabled, players will always spawn at the set coordinates (at the nearest air pocket)."
 		));
 		configMetaData.put("ignoreTreesDuringStructurePlacement", Arrays.asList(
 			"Prevents structures from being placed on top of trees. Any leaf and log blocks will be ignored during placement."
 		));
+		configMetaData.put("fitStructureToTerrain", Arrays.asList(
+			"Places the structure at the average ground height below it, and fills gaps underneath it with the ground block."
+		));
 		configMetaData.put("generationIgnoreJigsawAndStructureBlocks", Arrays.asList(
 			"Some schematic files might contain jigsaw or structure blocks. These are by default ignored during structure generation."
+		));
+		configMetaData.put("generateJigsawStructures", Arrays.asList(
+			"Whether jigsaw blocks in the schematic generate the pieces of their template pool, like the jigsaw block's Generate button."
+		));
+		configMetaData.put("jigsawGenerationLevels", Arrays.asList(
+			"How many levels of jigsaw pieces are generated from each jigsaw block. Used when generateJigsawStructures is enabled."
 		));
 		configMetaData.put("protectStructureBlocks", Arrays.asList(
 			"Whether the blocks from the generated structure should be protected from breaking/griefing."
@@ -70,7 +86,7 @@ public class ConfigHandler extends DuskConfig {
 			"If spawned entities inside the generated structure should not be allowed to move away from the block they spawned on. Disabled by default."
 		));
 		configMetaData.put("spawnNonSignEntitiesFromSupportedSchematics", Arrays.asList(
-			"If entities from (structure block) schematic files should be spawned when found. These are entities not created with signs."
+			"If entities saved in the schematic file (structure block .nbt or WorldEdit .schem) should be spawned. These are entities not created with signs."
 		));
 
 		configMetaData.put("shouldUseStructurePosition", Arrays.asList(

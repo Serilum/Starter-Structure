@@ -1,6 +1,7 @@
 package com.serilum.starterstructure.events;
 
 import com.natamus.collective.functions.PlayerFunctions;
+import com.natamus.collective.functions.TaskFunctions;
 import com.serilum.starterstructure.config.ConfigHandler;
 import com.serilum.starterstructure.util.Reference;
 import com.serilum.starterstructure.util.Util;
@@ -8,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelData.RespawnData;
 import net.minecraft.world.phys.Vec3;
@@ -38,11 +38,18 @@ public class StructureSpawnPointEvents {
 
 		Util.processEntityMovementOnJoin(entity);
 
-		if (!ConfigHandler.forceExactSpawn) {
+		if (!(entity instanceof ServerPlayer player)) {
 			return;
 		}
 
-		if (!(entity instanceof Player player)) {
+		ServerLevel serverLevel = (ServerLevel)level;
+		if (Util.shouldGenerateForArrivingPlayer(serverLevel)) {
+			TaskFunctions.enqueueCollectiveServerTask(serverLevel.getServer(), () -> {
+				Util.generateSchematicForArrivingPlayer(serverLevel, player);
+			}, 1);
+		}
+
+		if (!ConfigHandler.forceExactSpawn || !Util.generatesAtWorldSpawn()) {
 			return;
 		}
 
@@ -50,7 +57,10 @@ public class StructureSpawnPointEvents {
 			return;
 		}
 
-		ServerLevel serverLevel = (ServerLevel)level;
+		if (Util.isAwaitingStructure()) {
+			Util.addPlayerAwaitingStructure(player);
+			return;
+		}
 
 		RespawnData respawnData = serverLevel.getRespawnData();
 

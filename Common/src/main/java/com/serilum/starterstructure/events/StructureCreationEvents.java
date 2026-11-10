@@ -13,16 +13,20 @@ import net.minecraft.world.level.storage.ServerLevelData;
 
 public class StructureCreationEvents {
 	public static InteractionResult onLevelSpawn(ServerLevel serverLevel, ServerLevelData serverLevelData) {
+		if (ConfigHandler.shouldGenerateStructure && Util.generatesAtWorldSpawn() && !Util.hasGeneratedStructure(serverLevel)) {
+			Util.setAwaitingStructure(true);
+		}
+
 		TaskFunctions.enqueueCollectiveServerTask(serverLevel.getServer(), () -> {
-			if (ConfigHandler.shouldGenerateStructure && !Util.hasGeneratedStructure(serverLevel)) {
+			if (ConfigHandler.shouldGenerateStructure && Util.generatesAtWorldSpawn() && !Util.hasGeneratedStructure(serverLevel)) {
 				BlockPos spawnPos = null;
 
 				BlockPos structurePos = Util.generateSchematic(serverLevel);
+				if (structurePos == null) {
+					Util.setAwaitingStructure(false);
+				}
 				if (structurePos != null) {
-					spawnPos = structurePos.immutable();
-					if (ConfigHandler.shouldUseSpawnCoordOffsets) {
-						spawnPos = spawnPos.offset(ConfigHandler.spawnXCoordOffset, ConfigHandler.spawnYCoordOffset, ConfigHandler.spawnZCoordOffset).immutable();
-					}
+					spawnPos = Util.getStructureSpawnPos(structurePos);
 
 					RespawnData oldRespawnData = serverLevel.getRespawnData();
 					RespawnData newRespawnData = RespawnData.of(oldRespawnData.dimension(), spawnPos, oldRespawnData.yaw(), oldRespawnData.pitch());
