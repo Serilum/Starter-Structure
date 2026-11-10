@@ -1,6 +1,7 @@
 package com.serilum.starterstructure.events;
 
 import com.natamus.collective.functions.PlayerFunctions;
+import com.natamus.collective.functions.TaskFunctions;
 import com.serilum.starterstructure.config.ConfigHandler;
 import com.serilum.starterstructure.util.Reference;
 import com.serilum.starterstructure.util.Util;
@@ -8,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -35,20 +35,29 @@ public class StructureSpawnPointEvents {
 
 		Util.processEntityMovementOnJoin(entity);
 
-		if (!ConfigHandler.forceExactSpawn) {
-			return;
-		}
-
-		if (!(entity instanceof Player)) {
-			return;
-		}
-
-		Player player = (Player)entity;
-		if (!PlayerFunctions.isJoiningWorldForTheFirstTime(player, Reference.MOD_ID, false)) {
+		if (!(entity instanceof ServerPlayer player)) {
 			return;
 		}
 
 		ServerLevel serverLevel = (ServerLevel)level;
+		if (Util.shouldGenerateForArrivingPlayer(serverLevel)) {
+			TaskFunctions.enqueueCollectiveServerTask(serverLevel.getServer(), () -> {
+				Util.generateSchematicForArrivingPlayer(serverLevel, player);
+			}, 1);
+		}
+
+		if (!ConfigHandler.forceExactSpawn || !Util.generatesAtWorldSpawn()) {
+			return;
+		}
+
+		if (!PlayerFunctions.isJoiningWorldForTheFirstTime(player, Reference.MOD_ID, false)) {
+			return;
+		}
+
+		if (Util.isAwaitingStructure()) {
+			Util.addPlayerAwaitingStructure(player);
+			return;
+		}
 
 		BlockPos ppos = player.blockPosition();
 		BlockPos wspos = serverLevel.getSharedSpawnPos();
